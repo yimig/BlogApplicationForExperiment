@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+    android:id="@+id/hideMessage"
+    android:title="屏蔽此消息"/>
+    <item
+        android:id="@+id/hidePerson"
+        android:title="屏蔽此人"/>
+
+
+</menu>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:layout_margin="10sp"
+>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="5sp"
+    >
+        <ImageView
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:id="@+id/userImg"/>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_marginLeft="10sp"
+        >
+            <TextView
+                    android:text="userName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userName"
+                    android:layout_gravity="center"
+            />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+                <TextView
+                        android:text="From "
+                        android:textSize="10sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"/>
+                <TextView
+                        android:text="Unknown Device"
+                        android:textSize="10sp"
+                        android:layout_width="230sp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/userDevice"/>
+                <TextView
+                        android:text="2019/1/1 16:00"
+                        android:textSize="10sp"
+                        android:layout_width="200sp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/postDate"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+    />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+    >
+        <ImageButton
+                android:id="@+id/btnLike"
+                android:src="@mipmap/like"
+                android:layout_height="30sp"
+                android:layout_width="30sp"
+                android:layout_marginRight="10sp"
+                android:contentDescription="TODO"/>
+        <ImageButton
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:id="@+id/btnMore"
+                android:layout_marginRight="10sp"
+                android:src="@drawable/ic_action_more"
+                />
+    </LinearLayout>
+
+</LinearLayout>

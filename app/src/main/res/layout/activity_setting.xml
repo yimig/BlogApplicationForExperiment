@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SettingActivity">
+    <LinearLayout
+            android:background="#F2F8EF"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="350sp"
+                android:layout_marginBottom="40sp"
+                android:background="@drawable/cloud"
+        >
+            <ImageView
+                    android:layout_margin="130sp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="150sp"
+                    android:layout_height="150sp"
+                    android:src="@drawable/userimage"
+                    android:id="@+id/imageView6"
+            />
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50sp"
+                android:layout_marginRight="50sp"
+                android:orientation="vertical"
+        >
+            <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10sp"
+                    android:orientation="horizontal">
+                <RadioButton
+                        android:layout_width="150sp"
+                        android:layout_height="wrap_content"
+                        android:text="Male"
+                />
+                <RadioButton
+                        android:layout_width="100sp"
+                        android:layout_height="wrap_content"
+                        android:text="Female"
+                />
+            </RadioGroup>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="81sp"
+                        android:layout_height="match_parent">
+                    <TextView android:text="Matto:"
+                              android:layout_width="match_parent"
+                              android:layout_height="50sp"
+                              android:gravity="center_vertical"></TextView>
+                    <TextView
+                            android:text="Introduction:"
+                            android:layout_width="match_parent"
+                            android:layout_height="100sp"
+                            android:id="@+id/tvUserName"
+                            android:gravity="center_vertical"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    <EditText android:layout_width="300sp" android:layout_height="50sp" android:text="@string/nav_header_subtitle"/>
+                    <EditText android:layout_width="300sp" android:layout_height="100sp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
