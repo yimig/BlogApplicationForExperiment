@@ -64,4 +64,9 @@ public class User {
     public void setImageResCode(int imageResCode) {
         this.imageResCode = imageResCode;
     }
+
+    public boolean equals(Object obj) {
+        User user=(User)obj;
+        return user.getUserName().equals(this.getUserName());
+    }
 }

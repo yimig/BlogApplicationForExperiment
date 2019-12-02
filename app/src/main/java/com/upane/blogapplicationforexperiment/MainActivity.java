@@ -25,18 +25,25 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     User user;
-    List<Message> messages;
     ListView lvMessage;
+    List<Message> messages;
     MessageAdapter adapter;
+    MessageManager messageManager;
+    UserManager userManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initMainWindow();
+        messageManager=new MessageManager(this);
+        userManager=new UserManager(this);
+        messages=new ArrayList<>();
         addTestData();
         user=new User(getResources().getString(R.string.nav_header_title));
         user.setImageResCode(R.drawable.userimage);
         user.setDevice("TestDevice");
+        user.setSignInDate(new Date());
+        userManager.addUser(user);
     }
 
     private void initMainWindow()
@@ -71,28 +78,39 @@ public class MainActivity extends AppCompatActivity
         User user1=new User("张三");
         user1.setImageResCode(R.mipmap.user1);
         user1.setDevice("HuaWei P20");
+        user1.setSignInDate(new Date());
         String content1="Hello World!";
         Message message1=new Message(user1,new Date(),content1);
 
         User user2=new User("Shuyo");
         user2.setImageResCode(R.mipmap.user2);
         user2.setDevice("Sony Xperia 5");
+        user2.setSignInDate(new Date());
         String content2="人们崇拜资本所具有的勃勃生机，崇拜其神话色彩，崇拜东京地价，崇拜“保时捷”那闪闪发光的标志。除此之外，这个世界上再不存在任何神话。\n" + "在这样的世界上，哲学愈发类似经营学，愈发紧贴时代的脉搏。";
         Message message2=new Message(user2,new Date(),content2);
 
         User user3=new User("OA");
         user3.setImageResCode(R.mipmap.user3);
         user3.setDevice("iPhone");
+        user3.setSignInDate(new Date());
         String content3="Think of nothing things,think of wind.";
         Message message3=new Message(user3,new Date(),content3);
-
-        messages=new ArrayList<Message>();
-        messages.add(message1);
-        messages.add(message2);
-        messages.add(message3);
+        userManager.addUser(user1);
+        userManager.addUser(user2);
+        userManager.addUser(user3);
+        messageManager.addMessage(message1);
+        messageManager.addMessage(message2);
+        messageManager.addMessage(message3);
+        refreshList();
         adapter=new MessageAdapter(this,messages);
         ListView lv=findViewById(R.id.lvMessage);
         lv.setAdapter(adapter);
+    }
+
+    private void refreshList()
+    {
+        if(messages.size()!=0)messages.clear();
+        messages.addAll(messageManager.getMessages());
     }
 
     @Override
@@ -163,7 +181,8 @@ public class MainActivity extends AppCompatActivity
         Message newMes;
         if(message!=null){
             newMes=new Message(user,new Date(),message);
-            messages.add(newMes);
+            messageManager.addMessage(newMes);
+            refreshList();
         }
         adapter.notifyDataSetChanged();
     }

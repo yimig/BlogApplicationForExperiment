@@ -26,4 +26,10 @@ public class Message {
     public String getContent() {
         return content;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Message msg=(Message)obj;
+        return this.getUser().equals(msg.getUser())&&this.getContent().equals(msg.getContent());
+    }
 }
