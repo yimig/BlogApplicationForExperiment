@@ -17,15 +17,14 @@
             android:layout_width="80sp"
             android:layout_height="80sp"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            app:srcCompat="@drawable/userimage"
             android:contentDescription="@string/nav_header_desc"
-            android:id="@+id/ivUser"/>
+            android:id="@+id/ivUserImg"/>
 
     <TextView
+            android:id="@+id/tvUserName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:text="@string/nav_header_title"
             android:textColor="#000000"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 

@@ -1,20 +1,22 @@
 package com.upane.blogapplicationforexperiment;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.*;
 import android.view.View;
 
+import java.io.File;
 import java.util.List;
 
 public class MessageAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
     private List<Message> messages;
+    private Context context;
 
 
     public MessageAdapter(Context context , List<Message> messages){
-
+        this.context=context;
         this.mInflater = LayoutInflater.from(context);
         this.messages=messages;
     }
@@ -41,7 +43,6 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-
         ViewHolder holder = null;
 
         if (convertView == null) {
@@ -66,10 +67,9 @@ public class MessageAdapter extends BaseAdapter {
         }
         holder.userName.setText(messages.get(position).getUser().getUserName());
         holder.userDevice.setText(messages.get(position).getUser().getDevice());
-        holder.postDate.setText(messages.get(position).getPostDate());
+        holder.postDate.setText(messages.get(position).getDateString());
         holder.content.setText(messages.get(position).getContent());
-        holder.userImage.setImageResource(messages.get(position).getUser().getImageResCode());
-
+        holder.userImage.setImageBitmap(BitmapFactory.decodeFile(context.getFilesDir().getAbsolutePath()+"/"+messages.get(position).getUser().getImagePath()));
         return convertView;
     }
 

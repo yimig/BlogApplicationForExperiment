@@ -18,50 +18,55 @@ public class MessageManager {
 
     public void addMessage(Message message)
     {
-        boolean isAdd=true;
-        List<Message> messageList=getMessages();
-        if(messageList.size()!=0)for(Message tempMsg:getMessages())
-        {
-            if(message.equals(tempMsg))
-            {
-                isAdd=false;
-                break;
-            }
-        }
-        if(isAdd) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put("user_name", message.getUser().getUserName());
-            contentValues.put("content", message.getContent());
-            contentValues.put("post_date", message.getPostDate().toString());
-            messageService.insert(contentValues);
-        }
+        ConnHelper connHelper=new ConnHelper();
+        connHelper.addMessages(message);
+//        boolean isAdd=true;
+//        List<Message> messageList=getMessages();
+//        if(messageList.size()!=0)for(Message tempMsg:getMessages())
+//        {
+//            if(message.equals(tempMsg))
+//            {
+//                isAdd=false;
+//                break;
+//            }
+//        }
+//        if(isAdd) {
+//            ContentValues contentValues = new ContentValues();
+//            contentValues.put("user_name", message.getUser().getUserName());
+//            contentValues.put("content", message.getContent());
+//            contentValues.put("post_date", message.getPostDate().toString());
+//            messageService.insert(contentValues);
+//        }
     }
 
-    public List<Message> getMessages()
+    public List<Message> getMessages(User user)
     {
-        UserManager userManager=new UserManager(c);
-        Cursor c=messageService.query();
-        c.moveToFirst();
-        List<Message> messages=new ArrayList<>();
-        if(c.getCount()!=0) {
-            while (true) {
-                User tempUser = null;
-                List<User> users = userManager.getUsers();
-                for (User user : users) {
-                    String returnString = c.getString(1);
-                    if (user.getUserName().equals(returnString)) {
-                        tempUser = user;
-                        break;
-                    }
-
-                }
-                Message message = new Message(tempUser, new Date(c.getString(3)), c.getString(2));
-                messages.add(message);
-                if (c.isLast()) break;
-                else c.moveToNext();
-            }
-        }
-        return messages;
+        ConnHelper connHelper=new ConnHelper();
+        connHelper.getMessages(user);
+        return connHelper.getMessagesList();
+//        UserManager userManager=new UserManager(c);
+//        Cursor c=messageService.query();
+//        c.moveToFirst();
+//        List<Message> messages=new ArrayList<>();
+//        if(c.getCount()!=0) {
+//            while (true) {
+//                User tempUser = null;
+//                List<User> users = userManager.getUsers();
+//                for (User user : users) {
+//                    String returnString = c.getString(1);
+//                    if (user.getUserName().equals(returnString)) {
+//                        tempUser = user;
+//                        break;
+//                    }
+//
+//                }
+//                Message message = new Message(tempUser, new Date(c.getString(3)), c.getString(2));
+//                messages.add(message);
+//                if (c.isLast()) break;
+//                else c.moveToNext();
+//            }
+//        }
+//        return messages;
     }
 
     public void DeleteMessage(int id)

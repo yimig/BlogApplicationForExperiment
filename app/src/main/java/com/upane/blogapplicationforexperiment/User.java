@@ -9,6 +9,7 @@ public class User {
     private String userName,gender,eMail,device;
     private Date signInDate;
     private int imageResCode;
+    private String imagePath;
     public User(String userName)
     {
         this.userName=userName;
@@ -68,5 +69,13 @@ public class User {
     public boolean equals(Object obj) {
         User user=(User)obj;
         return user.getUserName().equals(this.getUserName());
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

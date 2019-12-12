@@ -1,12 +1,17 @@
 package com.upane.blogapplicationforexperiment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,19 +23,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.*;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    User user;
-    ListView lvMessage;
-    List<Message> messages;
-    MessageAdapter adapter;
-    MessageManager messageManager;
-    UserManager userManager;
-
+    private User user;
+    private ListView lvMessage;
+    private List<Message> messages;
+    private MessageAdapter adapter;
+    private MessageManager messageManager;
+    private UserManager userManager;
+    private Context context=this;
+    private Message newMsg;
+    private boolean isSendMsg=false;
+    NetHandler handler=new NetHandler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +47,21 @@ public class MainActivity extends AppCompatActivity
         messageManager=new MessageManager(this);
         userManager=new UserManager(this);
         messages=new ArrayList<>();
-        addTestData();
-        user=new User(getResources().getString(R.string.nav_header_title));
-        user.setImageResCode(R.drawable.userimage);
-        user.setDevice("TestDevice");
-        user.setSignInDate(new Date());
-        userManager.addUser(user);
+        //addTestData();
+//        user=new User(getResources().getString(R.string.nav_header_title));
+//        user.setImageResCode(R.drawable.userimage);
+//        user.setDevice("TestDevice");
+//        user.setSignInDate(new Date());
+        //userManager.addUser(user);
+        adapter=new MessageAdapter(this,messages);
+        lvMessage=findViewById(R.id.lvMessage);
+        lvMessage.setAdapter(adapter);
+        getList();
+    }
+
+    private void initDefaultUser()
+    {
+        new DefaultUserThread().start();
     }
 
     private void initMainWindow()
@@ -69,48 +87,110 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         lvMessage=findViewById(R.id.lvMessage);
-
     }
 
-    private void addTestData()
-    {
+//    private void addTestData()
+//    {
+//
+//        User user1=new User("张三");
+//        user1.setImageResCode(R.mipmap.user1);
+//        user1.setDevice("HuaWei P20");
+//        user1.setSignInDate(new Date());
+//        String content1="Hello World!";
+//        Message message1=new Message(user1,new Date(),content1);
+//
+//        User user2=new User("Shuyo");
+//        user2.setImageResCode(R.mipmap.user2);
+//        user2.setDevice("Sony Xperia 5");
+//        user2.setSignInDate(new Date());
+//        String content2="人们崇拜资本所具有的勃勃生机，崇拜其神话色彩，崇拜东京地价，崇拜“保时捷”那闪闪发光的标志。除此之外，这个世界上再不存在任何神话。\n" + "在这样的世界上，哲学愈发类似经营学，愈发紧贴时代的脉搏。";
+//        Message message2=new Message(user2,new Date(),content2);
+//
+//        User user3=new User("OA");
+//        user3.setImageResCode(R.mipmap.user3);
+//        user3.setDevice("iPhone");
+//        user3.setSignInDate(new Date());
+//        String content3="Think of nothing things,think of wind.";
+//        Message message3=new Message(user3,new Date(),content3);
+//        userManager.addUser(user1);
+//        userManager.addUser(user2);
+//        userManager.addUser(user3);
+//        messageManager.addMessage(message1);
+//        messageManager.addMessage(message2);
+//        messageManager.addMessage(message3);
+//        refreshList();
+//        adapter=new MessageAdapter(this,messages);
+//        ListView lv=findViewById(R.id.lvMessage);
+//        lv.setAdapter(adapter);
+//    }
 
-        User user1=new User("张三");
-        user1.setImageResCode(R.mipmap.user1);
-        user1.setDevice("HuaWei P20");
-        user1.setSignInDate(new Date());
-        String content1="Hello World!";
-        Message message1=new Message(user1,new Date(),content1);
-
-        User user2=new User("Shuyo");
-        user2.setImageResCode(R.mipmap.user2);
-        user2.setDevice("Sony Xperia 5");
-        user2.setSignInDate(new Date());
-        String content2="人们崇拜资本所具有的勃勃生机，崇拜其神话色彩，崇拜东京地价，崇拜“保时捷”那闪闪发光的标志。除此之外，这个世界上再不存在任何神话。\n" + "在这样的世界上，哲学愈发类似经营学，愈发紧贴时代的脉搏。";
-        Message message2=new Message(user2,new Date(),content2);
-
-        User user3=new User("OA");
-        user3.setImageResCode(R.mipmap.user3);
-        user3.setDevice("iPhone");
-        user3.setSignInDate(new Date());
-        String content3="Think of nothing things,think of wind.";
-        Message message3=new Message(user3,new Date(),content3);
-        userManager.addUser(user1);
-        userManager.addUser(user2);
-        userManager.addUser(user3);
-        messageManager.addMessage(message1);
-        messageManager.addMessage(message2);
-        messageManager.addMessage(message3);
-        refreshList();
-        adapter=new MessageAdapter(this,messages);
-        ListView lv=findViewById(R.id.lvMessage);
-        lv.setAdapter(adapter);
-    }
-
-    private void refreshList()
+    private void refreshList(List<Message> list)
     {
         if(messages.size()!=0)messages.clear();
-        messages.addAll(messageManager.getMessages());
+        messages.addAll(list);
+    }
+
+    private void getList()
+    {
+        (new NetThread()).start();
+    }
+
+    public class NetThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            ConnHelper connHelper=new ConnHelper();
+            if(isSendMsg)
+            {
+                MessageManager msm=new MessageManager(context);
+                msm.addMessage(newMsg);
+                isSendMsg=false;
+            }
+            connHelper.getMessages(user);
+            List<Message> msgs=connHelper.getMessagesList();
+            ImgManager imgManager=new ImgManager(context);
+            imgManager.SyncImgDataBase(msgs);
+            refreshList(msgs);
+            handler.obtainMessage(1).sendToTarget();
+
+        }
+    }
+
+    public class DefaultUserThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            ConnHelper connHelper=new ConnHelper();
+            connHelper.getUsers(null);
+            for (User tempu:connHelper.getUsersList()) {
+                if(tempu.getUserName().equals("OA"))user=tempu;
+            }
+            ImgManager imgManager=new ImgManager(context);
+            imgManager.appendUserImg(user);
+            handler.obtainMessage(0).sendToTarget();
+
+        }
+    }
+
+    public class NetHandler extends Handler{
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what)
+            {
+                case 0:{
+                    TextView tvUserName=findViewById(R.id.tvUserName);
+                    ImageView ivUserImg=findViewById(R.id.ivUserImg);
+                    tvUserName.setText(user.getUserName());
+                    ivUserImg.setImageBitmap(BitmapFactory.decodeFile(context.getFilesDir().getAbsolutePath()+"/"+user.getImagePath()));
+                    break;
+                }
+                case 1:{
+                    adapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+        }
     }
 
     @Override
@@ -129,7 +209,7 @@ public class MainActivity extends AppCompatActivity
 
         getMenuInflater().inflate(R.menu.main, menu);
 
-        ImageView iv=findViewById(R.id.ivUser);
+        ImageView iv=findViewById(R.id.ivUserImg);
         iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,6 +217,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+        initDefaultUser();
         return true;
     }
 
@@ -180,10 +261,9 @@ public class MainActivity extends AppCompatActivity
         String message=data.getStringExtra("content");
         Message newMes;
         if(message!=null){
-            newMes=new Message(user,new Date(),message);
-            messageManager.addMessage(newMes);
-            refreshList();
+            newMsg=new Message(user,new Date(),message);
+            isSendMsg=true;
+            getList();
         }
-        adapter.notifyDataSetChanged();
     }
 }

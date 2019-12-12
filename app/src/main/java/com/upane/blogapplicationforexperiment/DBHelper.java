@@ -7,8 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DBHelper extends SQLiteOpenHelper {
     private static SQLiteDatabase db;
     private static final String DB_NAME="database.db";
-    private static final String TBL_NAME1="t_user";
-    private static final String TBL_NAME2="t_messages";
+    private static final String TBL_NAME="t_img";
 
     DBHelper(Context c)
     {
@@ -23,8 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static void buildDb()
     {
-        db.execSQL("create table "+TBL_NAME1+"(user_name text primary key,gender text,e_mail text,device text,date text,img_code integer);");
-        db.execSQL("create table "+TBL_NAME2+"(id integer primary key AUTOINCREMENT,user_name references t_user(user_name),content text,post_date text);");
+        db.execSQL("create table "+TBL_NAME+"(img_id intger primary key,img_path text);");
     }
 
     public void onClose()

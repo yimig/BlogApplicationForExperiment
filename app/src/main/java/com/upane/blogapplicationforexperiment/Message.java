@@ -19,8 +19,13 @@ public class Message {
         return user;
     }
 
-    public String getPostDate() {
+    public String getDateString() {
         return postDate.getYear()+1990+"/"+postDate.getMonth()+"/"+postDate.getDay()+" "+postDate.getHours()+":"+postDate.getMinutes();
+    }
+
+    public Date getPostDate()
+    {
+        return postDate;
     }
 
     public String getContent() {
