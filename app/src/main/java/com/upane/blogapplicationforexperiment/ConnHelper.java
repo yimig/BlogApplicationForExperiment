@@ -81,7 +81,7 @@ public class ConnHelper {
 
     private static HttpURLConnection postInfo(Booter booter) throws IOException
     {
-        URL postUrl = new URL("http://10.242.65.100:8080/Blog_Service_Exp_war_exploded/DealServlet");
+        URL postUrl = new URL("http://192.168.43.195:8080/Blog_Service_Exp_war_exploded/DealServlet");
         HttpURLConnection connection = (HttpURLConnection) postUrl.openConnection();
         connection.setDoOutput(true);
         connection.setDoInput(true);
